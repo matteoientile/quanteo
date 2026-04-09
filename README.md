@@ -1,4 +1,4 @@
-# Quantitative Options Pricing & Risk Library 
+# QUANTEO: A Quantitative Options Pricing & Risk Library 
 
 > **Status:** 🚧 *Active Development:* A scalable, Object-Oriented Python library for derivative pricing, risk management, and quantitative stochastic modeling. 
 

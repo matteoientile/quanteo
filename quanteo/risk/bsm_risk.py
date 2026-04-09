@@ -5,8 +5,21 @@ from quanteo.models.gbm import GBM
 
 class AnalyticalBSMGreeks:
     """
-    Computes exact closed-form Greeks according to the Black-Scholes-Merton derivation.
-    Strictly limited to European options under Geometric Brownian Motion.
+    Exact analytical risk sensitivities (Greeks) for European Options.
+
+    This class computes the partial derivatives of the Black-Scholes-Merton 
+    pricing formula with respect to the underlying parameters. These values 
+    represent the 'first-order' and 'second-order' risk of the option position.
+
+    The calculated Greeks are:
+    - Delta ($\Delta$): $\frac{\partial V}{\partial S}$ (Price sensitivity)
+    - Gamma ($\Gamma$): $\frac{\partial^2 V}{\partial S^2}$ (Delta sensitivity)
+    - Vega ($\nu$): $\frac{\partial V}{\partial \sigma}$ (Volatility sensitivity)
+    - Theta ($\Theta$): $\frac{\partial V}{\partial t}$ (Time decay)
+    - Rho ($\rho$): $\frac{\partial V}{\partial r}$ (Interest rate sensitivity)
+
+    Note: These formulas are derived assuming Geometric Brownian Motion and 
+    constant parameters over the option's life.
     """
     def calculate(self, option, model) -> dict:
         """

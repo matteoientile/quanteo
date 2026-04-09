@@ -4,18 +4,26 @@ from quanteo.models.base_model import BaseModel
 
 class GBM(BaseModel):
     """
-    Asset price modelled according to Geometric Brownian Motion (GBM).
+    Geometric Brownian Motion (GBM) model for asset price dynamics.
+
+    Simulates the continuous-time stochastic process commonly used in the 
+    Black-Scholes-Merton framework. The asset price follows the stochastic 
+    differential equation (SDE):
+
+    $$dS_t = r S_t dt + \sigma S_t dW_t$$
+
+    where $W_t$ is a standard Brownian motion.
+
+    Args:
+        S0 (float): The initial or current asset price.
+        r (float): The annualized risk-free interest rate (e.g., 0.04 for 4%).
+        sigma (float): The annualized volatility of the asset returns.
+        t_time (float, optional): The current time in years. Defaults to 0.0.
+
+    Raises:
+        ValueError: If the volatility `sigma` is less than or equal to zero.
     """
     def __init__(self, S0: float, r: float, sigma: float, t_time: float = 0.0):
-        """
-        Constructor. All the parameters needed to perform the simulation must be passed
-
-        Args:
-            S0 (float): Current asset price. If t_time = 0 then S0 = asset price when the option contract is emitted
-            r (float): Risk free rate (annualized)
-            sigma (float): Volatility
-            t_time (float, optional): Current time. Defaults to 0.0, i.e. at the moment of option contract emission.
-        """
         super().__init__(S0, r, t_time)
         # sigma must be added, base_model does not contain it since sigma is not required for every model. 
         self.sigma = sigma

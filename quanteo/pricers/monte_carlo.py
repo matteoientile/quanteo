@@ -4,8 +4,32 @@ from quanteo.pricers.base_pricer import BasePricer, PricingResult
 
 class MonteCarloPricer(BasePricer):
     """
-        Prices options using Monte Carlo simulation.
-        Caches epsilon matrix to ensure Common Random Numbers (CRN) are used during sensitivity (Greeks) calculations.
+    Standard Monte Carlo pricing engine for path-dependent and vanilla options.
+
+    This engine simulates multiple asset price trajectories under the risk-neutral 
+    measure. The option price is estimated as the discounted expected value of the 
+    payoffs across all simulated paths.
+
+    Features:
+    - **Antithetic Variates**: Optional variance reduction by simulating 
+      mirrored Brownian paths ($W_t$ and $-W_t$).
+    - **CRN Caching**: Caches the standard normal random matrix (epsilon) to 
+      ensure Common Random Numbers are used during sensitivity analysis, 
+      eliminating 'simulation noise' from Greek calculations.
+    - **Confidence Intervals**: Calculates the statistical error of the estimate 
+      based on the Student's t-distribution.
+
+    The estimator converges to the true price at a rate of $\mathcal{O}(1/\sqrt{N})$.
+
+    Args:
+        n_paths (int, optional): Number of price trajectories to simulate. 
+            Defaults to 10000.
+        n_steps (int, optional): Number of time steps per path. Defaults to 1.
+        seed (int, optional): Random seed for reproducibility. Defaults to 42.
+        alpha (float, optional): Confidence level for the error margin. 
+            Defaults to 0.95 (95% CI).
+        antithetic (bool, optional): Whether to use Antithetic Sampling. 
+            Defaults to False.
     """
     def __init__(self, n_paths: int = 10000, n_steps: int=1, seed: int = 42, alpha: float = 0.95, antithetic: bool = False):
         self.n_paths = n_paths

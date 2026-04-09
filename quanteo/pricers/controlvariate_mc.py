@@ -5,10 +5,31 @@ import logging
 
 class ControlVariateMC:
     """
-    Implements Monte Carlo simulation with the very well 
-    effective Variance Reduction method, known as "Control Variates".
-    
-    We avoid to create again the Monte Carlo logic by calling the existing one.
+    Monte Carlo pricing engine enhanced with the Control Variates variance reduction technique.
+
+    The Control Variate method leverages the known analytical solution of a correlated 
+    instrument (the control) to reduce the standard error of the target instrument's 
+    simulation. By adjusting the target payoff based on the error observed in the 
+    control, we can achieve significantly tighter confidence intervals with the 
+    same number of paths.
+
+    The estimator $\hat{X}_{cv}$ is defined as:
+    $$\hat{X}_{cv} = X - c^*(Y - E[Y])$$
+
+    where:
+    - $X$: Payoff of the target option (e.g., Arithmetic Asian).
+    - $Y$: Payoff of the control option (e.g., Geometric Asian).
+    - $E[Y]$: Exact analytical price of the control.
+    - $c^*$: The variance-minimizing coefficient, calculated as $Cov(X, Y) / Var(Y)$.
+
+    Args:
+        mc_pricer (MonteCarloPricer): An instantiated Monte Carlo engine. 
+            This wrapper delegates the path generation to the provided pricer.
+
+    Note:
+        Avoid combining Control Variates with Antithetic Sampling unless the 
+        statistical interactions are explicitly accounted for, as it may bias 
+        the standard error estimates.
     """
     def __init__(self, mc_pricer):
         # The user previously called Monte Carlo as its Option pricer. 

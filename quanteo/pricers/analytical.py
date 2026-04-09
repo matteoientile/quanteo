@@ -4,8 +4,30 @@ from quanteo.pricers.base_pricer import BasePricer, PricingResult
 
 class BSMPricer(BasePricer):
     """
-    Prices vanilla European options using Black-Scholes-Merton analytical equations. 
-    Strictly requires a EuropeanOption and a GBM model. 
+    Analytical pricing engine for vanilla European options using the 
+    Black-Scholes-Merton (BSM) framework.
+
+    This pricer provides a closed-form solution for options that can only be 
+    exercised at maturity, assuming the underlying asset follows Geometric 
+    Brownian Motion with constant risk-free rates and volatility.
+
+    The price $V$ is determined by:
+    - Call: $S_0 N(d_1) - K e^{-rT} N(d_2)$
+    - Put:  $K e^{-rT} N(-d_2) - S_0 N(-d_1)$
+
+    where:
+    $$d_1 = \frac{\ln(S_0/K) + (r + \sigma^2/2)T}{\sigma \sqrt{T}}$$
+    $$d_2 = d_1 - \sigma \sqrt{T}$$
+
+    Args:
+        option (EuropeanOption): The contract definition.
+        model (GBM): The market model containing $S_0, r, \sigma$.
+
+    Returns:
+        PricingResult: An object containing the analytical price.
+
+    Raises:
+        ValueError: If the time to maturity is negative.
     """
     def price(self, option, model) -> PricingResult:
         """
@@ -35,8 +57,26 @@ class BSMPricer(BasePricer):
 
 class GeometricAsianPricer(BasePricer):
     """
-    Prices discrete Geometric Asian options using closed-form analytical equations.
-    Used primarily to generate exact prices for Control Variate variance reduction.
+    Analytical pricing engine for discrete Geometric Asian Options.
+
+    While Arithmetic Asian options lack a closed-form solution, Geometric Asian 
+    options can be priced analytically because the product of log-normal 
+    variables is itself log-normal. This pricer calculates the exact expected 
+    value by adjusting the drift and volatility parameters to account for the 
+    averaging process.
+
+    This engine is the mathematical 'anchor' for the Control Variate method.
+
+    The adjusted parameters used for the Black-Scholes-like formula are:
+    - $a$: The adjusted log-drift.
+    - $b$: The adjusted variance over the life of the option.
+
+    Args:
+        q (float, optional): The continuous dividend yield of the underlying asset. 
+            Defaults to 0.0.
+
+    Returns:
+        PricingResult: The exact analytical price of the Geometric Asian contract.
     """
     def __init__(self, q: float=0.0):
         self.q = q 

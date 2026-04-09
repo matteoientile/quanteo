@@ -4,16 +4,30 @@ import copy
 
 class FiniteDifferenceGreek(BaseRisk):
     """
-    Compute Greeks for any Option with Symmetric (Central) Finite Differences numerical method.
-    Takes a pricer method to simulate paths, then perform FD. 
-    For the time dependet greek, theta, forward method is adopted rather than FD. 
+    Computes option risk sensitivities (Greeks) using numerical finite differences.
+
+    This class acts as a universal Greek calculator. It wraps any pricing engine 
+    (e.g., Analytical, Monte Carlo, QMC) and approximates the partial derivatives of 
+    the option price with respect to specific market parameters. 
+    
+    Central differences are utilized for symmetric parameters (Delta, Gamma, Vega, Rho) 
+    to achieve higher order accuracy, while a forward difference is adopted for time 
+    decay (Theta).
+
+    Example (Central Difference for Delta):
+    $$\Delta \approx \frac{V(S_0 + \Delta S) - V(S_0 - \Delta S)}{2 \Delta S}$$
+
+    Args:
+        pricer (object): An instantiated pricing engine (e.g., `MonteCarloPricer`). 
+            The object must implement a standard `.price(option, model)` method.
+        dS_percentage (float, optional): The fractional bump size for the underlying 
+            asset price. Defaults to 0.01 (1% of S0).
+        dsigma (float, optional): The absolute bump size for volatility. Defaults to 0.01.
+        dr (float, optional): The absolute bump size for the risk-free rate. Defaults to 0.01.
+        dttm (float, optional): The bump size for time to maturity, typically representing 
+            one day in annualized terms. Defaults to 1/365.
     """
     def __init__(self, pricer, dS_percentage: float= 0.01, dsigma: float=0.01, dr: float=0.01, dttm: float=1/365):
-        """
-        Constructor.
-        - pricer (obj): pricer object that implements Monte Carlo, Quasi-MC, ... 
-        - dS_percentage (float): size of dS w.r.t. S0. Default is 0.01 (1%)
-        """
         self.pricer = pricer 
         self.dS_percentage = dS_percentage
         self.dsigma = dsigma

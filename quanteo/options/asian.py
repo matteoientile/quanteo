@@ -3,7 +3,26 @@ from quanteo.options.base_option import BaseOption
 
 class ArithmeticAsianOption(BaseOption):
     """
-    Compute the payoff for Arithmetic Asian Options
+    Contract definition for an Arithmetic Asian Option.
+
+    An Asian option is a path-dependent exotic derivative where the payoff is 
+    determined by the arithmetic average of the underlying asset's price over a 
+    pre-determined set of observation periods, rather than just the final price at maturity.
+
+    The arithmetic average $A$ is defined as:
+    $$A = \frac{1}{N} \sum_{i=1}^{N} S_{t_i}$$
+
+    The payoffs at maturity $T$ are:
+    - Call: $\max(A - K, 0)$
+    - Put:  $\max(K - A, 0)$
+
+    Args:
+        T (float): Option maturity in years (e.g., 0.5 for 6 months).
+        K (float): The strike price of the contract.
+        N (int): The number of discrete price observations used to compute the 
+            arithmetic average. Note that $S_0$ is typically excluded from this average.
+        option_type (str, optional): The type of option, either "call" or "put". 
+            Defaults to "call".
     """
     def __init__(self, T: float, K: float, N: int, option_type: str = "call"):
         """
@@ -33,7 +52,31 @@ class ArithmeticAsianOption(BaseOption):
 
 class GeometricAsianOption(BaseOption):
     """
-    Compute the payoff for Geometric Asian Options
+    Contract definition for a Geometric Asian Option.
+
+    An Asian option is a path-dependent exotic derivative where the payoff is 
+    determined by the geometric average of the underlying asset's price over a 
+    pre-determined set of observation periods. 
+    
+    Because the product of log-normally distributed variables (like stock prices 
+    in the BSM model) is also log-normally distributed, Geometric Asian options 
+    possess a closed-form analytical solution, making them ideal Control Variates 
+    for pricing Arithmetic Asian options.
+
+    The geometric average $G$ is defined as:
+    $$G = \left( \prod_{i=1}^{N} S_{t_i} \right)^{\frac{1}{N}}$$
+
+    The payoffs at maturity $T$ are:
+    - Call: $\max(G - K, 0)$
+    - Put:  $\max(K - G, 0)$
+
+    Args:
+        T (float): Option maturity in years (e.g., 0.5 for 6 months).
+        K (float): The strike price of the contract.
+        N (int): The number of discrete price observations used to compute the 
+            geometric average. Note that $S_0$ is typically excluded from this average.
+        option_type (str, optional): The type of option, either "call" or "put". 
+            Defaults to "call".
     """
     def __init__(self, T: float, K: float, N: int, option_type: str = "call"):
         """

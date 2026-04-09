@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import norm
-from options.european import EuropeanOption
-from models.gbm import GBM
+from quanteo.options.european import EuropeanOption
+from quanteo.models.gbm import GBM
 
 class AnalyticalBSMGreeks:
     """

@@ -1,5 +1,5 @@
 import numpy as np
-from risk.base_risk import BaseRisk
+from quanteo.risk.base_risk import BaseRisk
 import copy
 
 class FiniteDifferenceGreek(BaseRisk):

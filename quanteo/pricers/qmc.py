@@ -1,5 +1,5 @@
 import numpy as np
-from pricers.base_pricer import BasePricer, PricingResult
+from quanteo.pricers.base_pricer import BasePricer, PricingResult
 from scipy.stats import norm, qmc
 import math
 import logging

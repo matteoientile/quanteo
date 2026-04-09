@@ -1,6 +1,6 @@
 import numpy as np 
 import logging 
-from models.base_model import BaseModel
+from quanteo.models.base_model import BaseModel
 
 class GBM(BaseModel):
     """

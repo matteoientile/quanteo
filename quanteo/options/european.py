@@ -1,5 +1,5 @@
 import numpy as np
-from options.base_option import BaseOption
+from quanteo.options.base_option import BaseOption
 
 class EuropeanOption(BaseOption):
     """

@@ -1,6 +1,6 @@
 import numpy as np
-from pricers.base_pricer import PricingResult
-from options.sum_prices import SumPricesCV
+from quanteo.pricers.base_pricer import PricingResult
+from quanteo.options.sum_prices import SumPricesCV
 import logging
 
 class ControlVariateMC:

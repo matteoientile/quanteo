@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import norm
-from pricers.base_pricer import BasePricer, PricingResult
+from quanteo.pricers.base_pricer import BasePricer, PricingResult
 
 class BSMPricer(BasePricer):
     """

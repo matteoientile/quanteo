@@ -1,5 +1,5 @@
 import numpy as np 
-from options import BaseOption
+from quanteo.options.base_option import BaseOption
 
 class ArithmeticAsianOption(BaseOption):
     """

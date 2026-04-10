@@ -11,6 +11,12 @@
 [![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/mttntl02)
 ---
 
+## Installation
+
+You can install the official release directly via pip:
+```bash
+pip install quanteo
+```
 
 ## Functionalities available at the moment
 
@@ -21,7 +27,7 @@
 * **Analytical Models:** Closed-form Black-Scholes-Merton (BSM) for European and Geometric Asian options.
 
 ### 2. Risk Management (Greeks)
-* Computation of $\Delta, \Gamma, \nu, \rho, \Theta$.
+* Computation of Δ (Delta), Γ (Gamma), ν (Vega), ρ (Rho), and Θ (Theta).
 * **Finite Differences:** Central difference approximations for numerical sensitivities.
 * **CRN (Common Random Numbers):** Epsilon caching to ensure stability in numerical derivatives.
 

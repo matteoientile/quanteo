@@ -68,7 +68,7 @@ cv_engine = ControlVariateMC(mc)
 result = cv_engine.price(target, control, exact_cv, model)
 
 print(f"Price: {result.price:.4f}")
-print(f"95% CI: [{result.metrics['cv_lower_bound']:.4f}, {result.metrics['cv_upper_bound']:.4f}]")
+print(f"95% CI: [{result.metrics['confidence_interval'][0]:.4f}, {result.metrics['confidence_interval'][1]:.4f}]")
 ```
 
 ---

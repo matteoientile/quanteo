@@ -1,7 +1,25 @@
+# --- Python Artifacts ---
 __pycache__/
-*.pyc
-.DS_Store
+*.py[cod]
+*$py.class
+*.egg-info/
+.ipynb_checkpoints/
+
+# --- Build & Distribution ---
+# Essential for your PyPI workflow
+dist/
+build/
+
+# --- Virtual Environments ---
 .venv/
 env/
-.ipynb_checkpoints/
-*.egg-info/
+venv/
+ENV/
+
+# --- System Files ---
+.DS_Store
+Thumbs.db
+
+# --- My Mac specific ---
+# Any local IDE settings
+.vscode/
